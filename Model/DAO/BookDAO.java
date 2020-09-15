@@ -7,6 +7,7 @@ import lesson12.Helper.DatabaseUtil;
 import lesson12.Model.DTO.Book;
 
 public class BookDAO {
+    
 
     
     DatabaseUtil dbUtil = new DatabaseUtil();
@@ -91,5 +92,21 @@ public class BookDAO {
         }
         return false;
     }
+    
+    public boolean isIdAuthorExist(int idOfAuthor){
+        String sql = "SELECT * FROM Author;";
+        try {
+            ResultSet rs = dbUtil.executeQuery(sql);
+            while (rs.next()) {                
+                if (idOfAuthor == rs.getInt("id")) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+    
     
 }

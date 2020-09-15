@@ -23,7 +23,7 @@ public class BookController {
         ArrayList<Book> listBook = new ArrayList<>();
         try {
             listBook = bookDAO.getAllBook();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("That bai");
         } finally {
             return listBook;
@@ -52,6 +52,15 @@ public class BookController {
         try {
             return bookDAO.deleteBookByName(name);
         } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    
+    public boolean isIdAuthorExist(int idOfAuthor){
+        try {
+            return bookDAO.isIdAuthorExist(idOfAuthor);
+        } catch (Exception e) {
             System.out.println(e);
             return false;
         }

@@ -4,10 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import lesson12.Controller.BookController;
+import lesson12.Model.DAO.BookDAO;
 import lesson12.Model.DTO.Book;
 
 public class BookView {
- BookController bookController = BookController.getInstance();
+
+    BookController bookController = BookController.getInstance();
     Scanner sc = new Scanner(System.in);
 
     public void execute() throws SQLException {
@@ -24,7 +26,7 @@ public class BookView {
                 case 1:
                     ArrayList<Book> listBook = bookController.getAllBook();
                     for (int i = 0; i < listBook.size(); i++) {
-                        System.out.println("STT " + (i+1) + ": " + listBook.get(i).toString());
+                        System.out.println("STT " + (i + 1) + ": " + listBook.get(i).toString());
                     }
                     break;
                 case 2:
@@ -35,6 +37,10 @@ public class BookView {
                     System.out.print("Enter id author book: ");
                     int idOfAuthor = sc.nextInt();
                     sc.nextLine();
+                    if (!bookController.isIdAuthorExist(idOfAuthor)) {
+                        System.out.println("Khong co id cua author nay!!!");
+                        break;
+                    }
                     Book book = new Book(name, price, idOfAuthor);
                     if (bookController.addBook(book)) {
                         System.out.println("Thanh cong");
@@ -73,18 +79,22 @@ public class BookView {
                     int newIdOfAuthor = sc.nextInt();
                     sc.nextLine();
 
+                    if (!bookController.isIdAuthorExist(newIdOfAuthor)) {
+                        System.out.println("Khong co id cua author nay!!!");
+                        break;
+                    }
                     Book book2 = new Book(newName, newPrice, newIdOfAuthor);
                     try {
-                    response = bookController.updateBookByName(nameBookUp, book2);
-                    if (response) {
-                        System.out.println("Thanh cong");
-                    } else {
-                        System.out.println("That bai");
-                    }
-                    } catch(SQLException e) {
+                        response = bookController.updateBookByName(nameBookUp, book2);
+                        if (response) {
+                            System.out.println("Thanh cong");
+                        } else {
+                            System.out.println("That bai");
+                        }
+                    } catch (SQLException e) {
                         System.out.println(e);
-                    } finally{
-                        
+                    } finally {
+
                     }
                     break;
 
